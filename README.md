@@ -1,74 +1,71 @@
-# Project Name
+# Bubble sort array
 
-> One paragraph statement about the project.
+## Project specifications
 
-![screenshot](./app_screenshot.png)
+bubble sort, where each element is compared to the one next to it and they are swapped if the one on the left is larger than the one on the right. This continues until the array is eventually sorted. 
 
-Additional description about the project and its features.
+
+## Link to assignment
+
+the assignment can be found  [here](https://www.theodinproject.com/courses/ruby-programming/lessons/advanced-building-blocks).
 
 ## Built With
 
-- Major languages,
-- frameworks,
-- technologies used
+Concepts used on this project
+
+- Ruby
+- Loops
+- Yield
+
+Tools used on this project
+
+- Visual Studio Code
+- VSCode Ruby by Stafford Brunk
+- Rufo (Ruby Formatter) by Matt Bessey
+
+
+## Screenshot
+
+![screenshot](./img/screnshot-site.jpg)
 
 ## Live Demo
 
-[Live Demo Link](https://livedemo.com)
-
-
-## Getting Started
-
-**This is an example of how you may give instructions on setting up your project locally.**
-**Modify this file to match your project, remove sections that don't apply. For example: delete the testing section if the currect project doesn't require testing.**
-
-
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-### Setup
-
-### Install
-
-### Usage
-
-### Run tests
-
-### Deployment
-
+You can see the [live preview](https://repl.it/@RubenPaz/bubble-sort-ruby)
 
 
 ## Authors
 
-👤 **Author1**
+👤 **Xóchitl Selene Flores Pérez**
 
-- Github: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- Linkedin: [linkedin](https://linkedin.com/linkedinhandle)
+- Github: [@enelesmai](https://github.com/enelesmai)
+- Twitter: [@enelesmai](https://twitter.com/enelesmai)
+- Linkedin: [xochitlselene](https://linkedin.com/in/xochitlselene)
 
-👤 **Author2**
+👤 **Ruben Paz Chuspe**
 
-- Github: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- Linkedin: [linkedin](https://linkedin.com/linkedinhandle)
+- Github: [@rubenpazch](https://github.com/rubenpazch)
+- Linkedin: [rubenpch](https://www.linkedin.com/in/rubenpch/)
 
-## 🤝 Contributing
+
+## Contributing
+
+This is an education project as a part of the Microverse so contributing is not accepted. 
 
 Contributions, issues and feature requests are welcome!
 
-Feel free to check the [issues page](issues/).
+Feel free to check the [issues](https://github.com/rubenpazch/capstone-conference-page/issues).
 
 ## Show your support
 
 Give a ⭐️ if you like this project!
 
-## Acknowledgments
+## Acknowledgements
 
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
++ [Microverse](https://www.microverse.org/).
++ [Github](http://github.com/).
++ [The Odin Project](theodinproject.com/).
 
-## 📝 License
+## License
 
 This project is [MIT](lic.url) licensed.
+
