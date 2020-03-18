@@ -51,4 +51,7 @@ module Enumerable
     end
     newarray
 	end
+
+	
+	
 end

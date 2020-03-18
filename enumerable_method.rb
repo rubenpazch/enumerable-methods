@@ -35,24 +35,20 @@ module Enumerable
     t = true
     if block_given?
       return true unless block_given?
-
-      my_each do |x|
-        if yield(x).nil? || yield(x) == false
+			my_each do |x|        
+				if yield(x).nil? || yield(x) == false
           t = false
           break
         else
           t = true
         end
+				
       end
     else
       if param.nil?
         my_each do |x|
-          if x.nil? || x == false
-            t = false
-            break
-          else
-            t = true
-          end
+					t = my_condition (x)
+					break if t==false
         end
       else
         my_each do |x|
@@ -171,5 +167,13 @@ module Enumerable
       i += 1
     end
     newarray
-  end
+	end
+	
+	def my_condition(x)		
+    if x.nil? || x == false
+			return false			
+		else
+			return true
+		end		
+	end
 end
