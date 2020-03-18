@@ -72,23 +72,15 @@ module Enumerable
     t = true
     if block_given?
       return true unless block_given?
-      my_each do |x|
-        if yield(x).nil? || yield(x) == false
-          t = false
-        else
-          t = true
-          break
-        end
+      my_each do |x|        
+				t = my_condition (yield(x))
+				break if t==true
       end
     else
       if param.nil?
         my_each do |x|
-          if x.nil? || x == false
-            t = true
-            break
-          else
-            t = false
-          end
+					t = my_condition_change (x)
+					break if t==true
         end
       else
         my_each do |x|
@@ -109,22 +101,14 @@ module Enumerable
     if block_given?
       return true unless block_given?
       my_each do |x|
-        if yield(x) == false
-          t = true
-        else
-          t = false
-          break
-        end
+				t = my_condition_only_one(yield(x))
+				break if t==false
       end
     else
       if param.nil?
-        my_each do |x|
-          if x == true
-            t = false
-            break
-          else
-            t = true
-          end
+        my_each do |x|          
+					t = my_condition_only_one_true(x)
+					break if t==false					
         end
       else
         my_each do |x|
@@ -176,6 +160,43 @@ module Enumerable
 			return true
 		end
 
+	end
+
+	def my_condition_change(x)		
+
+		if x.nil? || x == false
+			return true
+		else
+
+			return false
+		end
+
+	end
+
+	def my_condition_only_one(x)
+
+		t = false
+
+		if x == false
+			t = true
+		else
+			t = false			
+		end
+		return t
+	end
+
+
+	def my_condition_only_one_true(x)
+
+		t = false
+	
+		if x == true
+			t = false			
+		else
+			t = true
+		end
+		
+		return t
 	end
 
 	def my_inject(param = nil)
