@@ -9,7 +9,11 @@ puts 'Type 3 -> custom my_select '
 puts 'Type 4 -> custom my_all '
 puts 'Type 5 -> custom my_any '
 puts 'Type 6 -> custom my_none '
-puts 'Type 6 -> custom my_count '
+puts 'Type 7 -> custom my_count '
+puts 'Type 8 -> custom my_map '
+puts 'Type 9 -> custom my_inject '
+puts 'Type 10 -> custom multiply_els '
+puts 'Type 11 -> custom my_map_proc '
 print "\r"
 
 option = gets.chomp.to_i
@@ -43,10 +47,15 @@ when 6
 	puts my_none?(arr6){|n| n.length==5}
 	puts my_none?(arr6){|n| n.length>=4}
 when 7
-	arr6= %w[ant bear cat]
+	arr6 = [1,2,4,2]
 	print "\r"	
-	puts my_count(arr6){|n| n.length==5}
-	puts my_count(arr6){|n| n.length>=4}
+	puts  my_count(arr6, nil) {|x| x%2==0}
+when 8	
+	print "\r"	
+	puts  my_map(1..4){|r|r*r} 
+when 11	
+	print "\r"	
+	puts  my_map_proc(1..4){|r|r*r} 
 else
   puts 'wrong option'
 end
