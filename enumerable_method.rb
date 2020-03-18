@@ -26,46 +26,113 @@ module Enumerable
 		return newarray
 	end
 
-	def my_all? 
-		return true unless block_given?			
-		t=true
-		self.my_each do |x|
-			if(yield(x)==nil || yield(x)==false)
-				t=false
-				break
-			else 
-				t=true
+	def my_all? (param=nil)
+		return false if param.class==Regexp
+		t=true			
+		if (block_given?)						
+			return true unless block_given?	
+			self.my_each do |x|
+				if(yield(x)==nil || yield(x)==false)
+					t=false
+					break
+				else 
+					t=true
+				end
 			end
-		end			
+		else
+			if param==nil 						
+				self.my_each do |x|			
+					if x==nil || x==false
+						t=false
+						break
+					else 
+						t=true
+					end
+				end
+			else				
+				self.my_each do |x|			
+					if x.is_a? param
+						t=true
+					else 
+						t=false
+						break
+					end
+				end		
+			end
+		end
 		return t	
 	end
 
-	def my_any?
-		return false if self.empty?
-		return true  unless block_given?			
-		t=true		
-		self.my_each do |x|
-			if(yield(x)==nil || yield(x)==false)
-				t=false			
-			else 
-				t=true
-				break
+	def my_any?(param=nil)
+		return false if param.class==Regexp
+		return false if self.empty?		
+		t=true						
+		if (block_given?)					
+			return true  unless block_given?	
+			self.my_each do |x|
+				if(yield(x)==nil || yield(x)==false)
+					t=false			
+				else 
+					t=true
+					break
+				end
+			end					
+		else
+			if param==nil 							
+				self.my_each do |x|			
+					if x==nil || x==false
+						t=true
+						break
+					else 
+						t=false
+					end
+				end
+			else						
+				self.my_each do |x|			
+					if x.is_a? param
+						t=true
+					else 
+						t=false						
+					end
+				end		
 			end
-		end		
+		end
 		return t	
 	end
 
-	def my_none?
-		return true  unless block_given?			
-		t=true		
-		self.my_each do |x|
-			if (yield(x)==false)
-				t=true			
-			else 
-				t=false
-				break				
-			end			
-		end		
+	def my_none?(param=nil)
+		return true if param.class==Regexp		
+		t=true			
+		if block_given?					
+			return true  unless block_given?				
+			self.my_each do |x|
+				if (yield(x)==false)
+					t=true			
+				else 
+					t=false
+					break				
+				end			
+			end		
+		else
+			if param==nil 						
+				self.my_each do |x|			
+					if x==true
+						t=false
+						break
+					else 
+						t=true
+					end
+				end
+			else						
+				self.my_each do |x|			
+					if x.is_a? param
+						t=true
+					else 
+						t=false						
+					end
+				end		
+			end
+		end
 		return t	
 	end
 

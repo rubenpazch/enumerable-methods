@@ -14,9 +14,12 @@ class TestMyAll < Test::Unit::TestCase
 	def test_basic
 		assert_equal(true, %w[ant bear cat].my_all? {|word| word.length>=3})		
 		assert_equal(false, %w[ant bear cat].my_all? {|word| word.length>=4})		
-		#assert_equal(false, %w[ant bear cat].my_all?(/t/))
-		#assert_equal(true, [1, 2i, 3.14].my_all?(Numeric) )
-		#assert_equal(false,[nil,true,99].my_all?)		
+		assert_equal(false, %w[ant bear cat].my_all?(/t/))
+		assert_equal(true, [1, 2i, 3.14].my_all?(Numeric) )
+		assert_equal(false, [1, "g", 3.14].my_all?(Numeric) )
+		assert_equal(false, ["a", 1,"c"].my_all?(String) )
+		assert_equal(true, ["a", "b","c"].my_all?(String) )
+		assert_equal(false,[nil,true,99].my_all?)		
 		assert_equal(true,[].my_all?)		
 	end
 end
@@ -25,8 +28,8 @@ class TestMyAny < Test::Unit::TestCase
 	def test_basic		
 		assert_equal(true, %w[ant bear cat].my_any? {|word| word.length>=3})		
 		assert_equal(true, %w[ant bear cat].my_any? {|word| word.length>=4})		
-		#assert_equal(false, %w[ant bear cat].my_any?(/t/))
-		#assert_equal(true, [1, 2i, 3.14].my_any?(Integer) )
+		assert_equal(false, %w[ant bear cat].my_any?(/d/))
+		assert_equal(true, [nil, true, 99].my_any?(Integer))
 		assert_equal(true,[nil,true,99].my_any?)		
 		assert_equal(false,[].my_any?)
 	end
@@ -36,12 +39,12 @@ class TestMyNone < Test::Unit::TestCase
 	def test_basic		
 		assert_equal(true, %w{ant bear cat}.my_none? { |word| word.length == 5 })		
 		assert_equal(false, %w{ant bear cat}.my_none? { |word| word.length >= 4 })		
-		#assert_equal(true, %w{ant bear cat}.my_none?(/d/) )		
-		#assert_equal(false, [1, 3.14, 42].my_none?(Float) )		
-		#assert_equal(true, [].my_none? )		
-		#assert_equal(true, [nil].my_none? )		
-		#assert_equal(true, [nil, false].my_none? )		
-		#assert_equal(false,[nil, false, true].my_none? )		
+		assert_equal(true, %w{ant bear cat}.my_none?(/d/) )		
+		assert_equal(false, [1, 3.14, 42].my_none?(Float) )		
+		assert_equal(true, [].my_none? )		
+		assert_equal(true, [nil].my_none? )		
+		assert_equal(true, [nil, false].my_none? )		
+		assert_equal(false,[nil, false, true].my_none? )		
 	end
 
 
