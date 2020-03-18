@@ -136,7 +136,7 @@ module Enumerable
 		end
 	end
 
-	def multiply_elns(numbers)
+	def Multiply_Elns(numbers)
 		numbers.my_inject do |number, product|
 			number * product
 		end
@@ -152,28 +152,6 @@ module Enumerable
 			end		
 			i += 1
 		end
-		return newarray
-	end
-	
-	def my_map_proc_yield(&block) 
-		return to_enum(:my_map) unless block_given?				
-		newarray=[]		
-		i=self.first
-		
-		while i<= self.last
-			if block.call(i) !=nil
-				newarray << block.call(i)
-			end		
-			i += 1
-		end
-
-		while i<= self.last
-			if yield(i) !=nil
-				newarray << yield(i)
-			end		
-			i += 1
-		end
-
 		return newarray
 	end
 	
