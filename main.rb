@@ -77,7 +77,7 @@ end
 
 class MultiplyElns < Test::Unit::TestCase
   def test_basic
-    x = Multiply_Elns([1, 2, 3, 4, 5])
+    x = multiply_elns([1, 2, 3, 4, 5])
     assert_equal(120, x)
   end
 end
