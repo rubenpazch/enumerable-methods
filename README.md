@@ -1,8 +1,8 @@
-# Bubble sort array
+# Enumerable methods
 
 ## Project specifications
 
-bubble sort, where each element is compared to the one next to it and they are swapped if the one on the left is larger than the one on the right. This continues until the array is eventually sorted. 
+We learned about the Enumerable module that gets mixed into the Array and Hash classes (among others) and provides you with lots of handy iterator methods. To prove that there’s no magic to it, you’re going to rebuild those methods.
 
 
 ## Link to assignment
@@ -16,12 +16,14 @@ Concepts used on this project
 - Ruby
 - Loops
 - Yield
+- Procs
+- UnitTest
 
 Tools used on this project
 
 - Visual Studio Code
 - VSCode Ruby by Stafford Brunk
-- Rufo (Ruby Formatter) by Matt Bessey
+- Rubocop
 
 
 ## Screenshot
@@ -34,12 +36,6 @@ You can see the [live preview](https://repl.it/@RubenPaz/bubble-sort-ruby)
 
 
 ## Authors
-
-👤 **Xóchitl Selene Flores Pérez**
-
-- Github: [@enelesmai](https://github.com/enelesmai)
-- Twitter: [@enelesmai](https://twitter.com/enelesmai)
-- Linkedin: [xochitlselene](https://linkedin.com/in/xochitlselene)
 
 👤 **Ruben Paz Chuspe**
 
