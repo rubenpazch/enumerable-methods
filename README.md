@@ -32,7 +32,7 @@ Tools used on this project
 
 ## Live Demo
 
-You can see the [live preview](https://repl.it/@RubenPaz/bubble-sort-ruby)
+You can see the [live preview](https://repl.it/@RubenPaz/enumerable-methods)
 
 
 ## Authors
