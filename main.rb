@@ -68,7 +68,6 @@ class TestMyInject < Test::Unit::TestCase
   def test_basic
     assert_equal(45, (5..10).my_inject { |sum, n| sum + n })
     assert_equal(151_200, (5..10).my_inject(1) { |product, n| product * n })
-
     longest = %w[cat sheep bear].my_inject do |memo, word|
       memo.length > word.length ? memo : word
     end

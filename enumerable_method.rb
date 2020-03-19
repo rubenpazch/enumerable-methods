@@ -40,17 +40,15 @@ module Enumerable
         t = if_nil_false_return_false yield(x)
         break if t == false
       end
+    elsif param.nil?
+      my_each do |x|
+        t = if_nil_false_return_false x
+        break if t == false
+      end
     else
-      if param.nil?
-        my_each do |x|
-          t = if_nil_false_return_false x
-          break if t == false
-        end
-      else
-        my_each do |x|
-          t = if_is_a_class(x, param)
-          break if t == false
-        end
+      my_each do |x|
+        t = if_is_a_class(x, param)
+        break if t == false
       end
     end
     t
@@ -68,16 +66,14 @@ module Enumerable
         t = if_nil_false_return_false yield(x)
         break if t == true
       end
+    elsif param.nil?
+      my_each do |x|
+        t = if_nil_false_return_false x
+        break if t == true
+      end
     else
-      if param.nil?
-        my_each do |x|
-          t = if_nil_false_return_false x
-          break if t == true
-        end
-      else
-        my_each do |x|
-          t = if_is_a_class(x, param)
-        end
+      my_each do |x|
+        t = if_is_a_class(x, param)
       end
     end
     t
@@ -94,16 +90,14 @@ module Enumerable
         t = if_false_return_true(yield(x))
         break if t == false
       end
+    elsif param.nil?
+      my_each do |x|
+        t = if_true_return_false(x)
+        break if t == false
+      end
     else
-      if param.nil?
-        my_each do |x|
-          t = if_true_return_false(x)
-          break if t == false
-        end
-      else
-        my_each do |x|
-          t = if_is_a_class(x, param)
-        end
+      my_each do |x|
+        t = if_is_a_class(x, param)
       end
     end
     t
@@ -140,12 +134,10 @@ module Enumerable
   def my_inject(param = nil)
     if self.class == Array
       acum = self[0]
-      len = length
-      newarray = self[1..len]
+      newarray = self[1..length]
       newarray.my_each do |item|
         acum = yield(item, acum)
       end
-      if_nil_acum_mul(param, acum)
     else
       autoarray = []
       i = first
@@ -154,37 +146,34 @@ module Enumerable
         i += 1
       end
       acum = autoarray[0]
-      len = autoarray.length
-      temparray = autoarray[1..len]
+      temparray = autoarray[1..autoarray.length]
       temparray.my_each do |item|
         acum = yield(item, acum)
       end
-      if_nil_acum_mul(param, acum)
     end
+    acum = if_nil_acum_mul(param, acum)
   end
 
-  def if_nil_false_return_false(x)
-    if x.nil? || x == false
+  def if_nil_false_return_false(elem)
+    if elem.nil? || elem == false
       false
     else
       true
     end
   end
 
-  def if_false_return_true(x)
-    t = false
-    t = x == false
+  def if_false_return_true(elem)
+    t = elem == false
     t
   end
 
-  def if_true_return_false(x)
-    t = false
-    t = x != true
+  def if_true_return_false(elem)
+    t = elem != true
     t
   end
 
-  def if_is_a_class(x, param)
-    if x.is_a? param
+  def if_is_a_class(elem, param)
+    if elem.is_a? param
       true
     else
       false
@@ -199,7 +188,7 @@ module Enumerable
     end
   end
 
-  def Multiply_Elns(numbers)
+  def multiply_elns(numbers)
     numbers.my_inject do |number, product|
       number * product
     end
