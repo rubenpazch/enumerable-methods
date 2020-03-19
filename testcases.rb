@@ -1,6 +1,5 @@
 $LOAD_PATH << '.'
 require './enumerable_method'
-require './enumerable_method_part2'
 require 'test/unit'
 
 include Enumerable
