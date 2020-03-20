@@ -38,7 +38,7 @@ module Enumerable
       end
     elsif param_is_a_class(param) && !param.nil?
       my_each do |x|
-        t = if_is_a_class(x, param)
+        t = if_elem_owns_to_class(x, param)
         break if t == false
       end
     elsif param.class == Regexp && !param.nil?
@@ -73,7 +73,7 @@ module Enumerable
       end
     elsif param_is_a_class(param) && !param.nil?
       my_each do |x|
-        t = if_is_a_class(x, param)
+        t = if_elem_owns_to_class(x, param)
         break if t == true
       end
     elsif param.class == Regexp && !param.nil?
@@ -98,24 +98,34 @@ module Enumerable
   end
 
   def my_none?(param = nil)
-    return true if param.class == Regexp
-
     t = true
-    if block_given?
+    if param_is_a_value(param) && !param.nil?
+      t = false
+      my_each do |x|
+        t = if_a_is_equal_b_return_false(x, param)
+        break if t == false
+      end
+    elsif param_is_a_class(param) && !param.nil?
+      my_each do |x|
+        t = if_elem_owns_to_class_return_false(x, param)
+        break if t == false
+      end
+    elsif param.class == Regexp && !param.nil?
+      my_each do |x|
+        t = if_is_not_a_reg(x, param)
+        break if t == true
+      end
+    elsif block_given?
       return true unless block_given?
 
       my_each do |x|
         t = if_false_return_true(yield(x))
         break if t == false
       end
-    elsif param.nil?
+    else
       my_each do |x|
         t = if_true_return_false(x)
         break if t == false
-      end
-    else
-      my_each do |x|
-        t = if_is_a_class(x, param)
       end
     end
     t
@@ -190,11 +200,27 @@ module Enumerable
     t
   end
 
-  def if_is_a_class(elem, param)
+  def if_elem_owns_to_class(elem, param)
     if elem.is_a? param
       true
     else
       false
+    end
+  end
+
+  def if_elem_owns_to_class_return_false(elem, param)
+    if elem.is_a? param
+      false
+    else
+      true
+    end
+  end
+
+  def if_elem_not_owns_to_class(elem, param)
+    if elem.is_a? param
+      false
+    else
+      true
     end
   end
 
@@ -214,12 +240,30 @@ module Enumerable
     end
   end
 
+  def if_is_not_a_reg(param, regexp)
+    if param.match(regexp)
+      false
+    else
+      true
+    end
+  end
+
   def if_a_is_equal_b(input_a, input_b)
     input_a == input_b
   end
 
+  def if_a_is_equal_b_return_false(input_a, input_b)
+    input_a != input_b
+  end
+
   def param_is_a_class(param)
     if param == Numeric
+      true
+    elsif param == Float
+      true
+    elsif param == String
+      true
+    elsif param == Integer
       true
     else
       param == String
@@ -232,6 +276,8 @@ module Enumerable
     elsif param == String
       false
     elsif param == Integer
+      false
+    elsif param == Float
       false
     else
       param.class != Regexp
