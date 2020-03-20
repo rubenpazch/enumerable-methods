@@ -21,6 +21,10 @@ class TestMyAll < Test::Unit::TestCase
     assert_equal(true, %w[a b c].my_all?(String))
     assert_equal(false, [nil, true, 99].my_all?)
     assert_equal(true, [].my_all?)
+    assert_equal(true, %w[box book burn].my_all?(/b/))
+    assert_equal(false, %w[box book turn].my_all?(/b/))
+    assert_equal(true, [3, 3, 3].my_all?(3))
+    assert_equal(false, [3, 3, 4].my_all?(3))
   end
 end
 
