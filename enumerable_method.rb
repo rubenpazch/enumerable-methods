@@ -151,10 +151,20 @@ module Enumerable
     return to_enum(:my_map) unless block_given?
 
     newarray = []
-    i = first
-    while i <= last
-      newarray << yield(i) unless yield(i).nil?
-      i += 1
+    if self.class == Array
+      my_each do |x|
+        newarray << if yield x
+                      true
+                    else
+                      false
+                    end
+      end
+    else
+      i = first
+      while i <= last
+        newarray << yield(i) unless yield(i).nil?
+        i += 1
+      end
     end
     newarray
   end
