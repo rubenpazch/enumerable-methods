@@ -36,6 +36,11 @@ class TestMyAny < Test::Unit::TestCase
     assert_equal(true, [nil, true, 99].my_any?(Integer))
     assert_equal(true, [nil, true, 99].my_any?)
     assert_equal(false, [].my_any?)
+    assert_equal(true, %w[box book burn].my_any?(/b/))
+    assert_equal(true, %w[box book turn].my_any?(/b/))
+    assert_equal(true, [3, 3, 3].my_any?(3))
+    assert_equal(true, [3, 3, 4].my_any?(3))
+    assert_equal(true, [3, 4, 4].my_any?(3))
   end
 end
 
