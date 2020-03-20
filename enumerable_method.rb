@@ -33,7 +33,7 @@ module Enumerable
     t = true
     if param_is_a_value(param) && !param.nil?
       my_each do |x|
-        t = if_inputa_is_equal_inputb(x, param)
+        t = if_a_is_equal_b(x, param)
         break if t == false
       end
     elsif param_is_a_class(param) && !param.nil?
@@ -204,8 +204,8 @@ module Enumerable
     end
   end
 
-  def if_inputa_is_equal_inputb(a, b)
-    a == b
+  def if_a_is_equal_b(input_a, input_b)
+    input_a == input_b
   end
 
   def param_is_a_class(param)
