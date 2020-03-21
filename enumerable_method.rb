@@ -169,15 +169,28 @@ module Enumerable
     newarray
   end
 
+  def operate_inject_for_simbol(acum, newarray, param)
+    newarray.my_each do |item|
+      acum = operation_simbol(param, acum, item)
+    end
+    acum
+  end
+
+  def new_auto_array(first, last)
+    autoarray = []
+    i = first
+    while i <= last
+      autoarray << i
+      i += 1
+    end
+    autoarray
+  end
+
   def my_inject(param = nil, _default_param = nil)
     if param.class == Symbol
       return nil if length.zero?
 
-      acum = self[0]
-      newarray = self[1..length]
-      newarray.my_each do |item|
-        acum = operation_simbol(param, acum, item)
-      end
+      acum = operate_inject_for_simbol(self[0], self[1..length], param)
     elsif self.class == Array
       acum = self[0]
       newarray = self[1..length]
@@ -185,12 +198,7 @@ module Enumerable
         acum = yield(item, acum)
       end
     else
-      autoarray = []
-      i = first
-      while i <= last
-        autoarray << i
-        i += 1
-      end
+      autoarray = new_auto_array(first, last)
       acum = autoarray[0]
       temparray = autoarray[1..autoarray.length]
       temparray.my_each do |item|
