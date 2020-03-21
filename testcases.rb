@@ -89,6 +89,17 @@ class TestMyInject < Test::Unit::TestCase
       memo.length > word.length ? memo : word
     end
     assert_equal('sheep', longest)
+
+    assert_equal([1, 2, 3, 4].inject(:+), [1, 2, 3, 4].my_inject(:+))
+    assert_equal([1, 2, 3, 4].inject(:*), [1, 2, 3, 4].my_inject(:*))
+    assert_equal([1, 2, 3, 4].inject(:/), [1, 2, 3, 4].my_inject(:/))
+    assert_equal((5..10).inject { |sum, n| sum + n }, (5..10).my_inject { |sum, n| sum + n })
+    assert_equal([100, 200, 1000].inject(1) { |sum, value| sum *= value }, [100, 200, 1000].my_inject(1) { |sum, value| sum *= value })
+    assert_equal((5..10).inject { |sum, n| sum + n }, (5..10).my_inject { |sum, n| sum + n })
+    assert_equal([100, 200, 1000].inject(1) { |sum, value| sum *= value }, [100, 200, 1000].my_inject(1) { |sum, value| sum *= value })
+    assert_equal((1..4).inject(&:+), (1..4).my_inject(&:+))
+    assert_equal([1, 2, 3].inject(&:+), [1, 2, 3].my_inject(&:+))
+    assert_equal([].inject(:+), [].my_inject(:+))
   end
 end
 

@@ -169,8 +169,16 @@ module Enumerable
     newarray
   end
 
-  def my_inject(param = nil)
-    if self.class == Array
+  def my_inject(param = nil, _default_param = nil)
+    if param.class == Symbol
+      return nil if length.zero?
+
+      acum = self[0]
+      newarray = self[1..length]
+      newarray.my_each do |item|
+        acum = operation_simbol(param, acum, item)
+      end
+    elsif self.class == Array
       acum = self[0]
       newarray = self[1..length]
       newarray.my_each do |item|
@@ -189,7 +197,7 @@ module Enumerable
         acum = yield(item, acum)
       end
     end
-    acum = if_nil_acum_mul(param, acum)
+    acum
   end
 
   def if_is_false_or_null(elem)
@@ -237,6 +245,10 @@ module Enumerable
   def if_nil_acum_mul(param, acum)
     if param.nil?
       acum
+    elsif param_is_a_class(param)
+      acum
+    elsif param_is_a_symbol(param)
+      acum
     else
       acum * param
     end
@@ -280,6 +292,10 @@ module Enumerable
     end
   end
 
+  def param_is_a_symbol(param)
+    param == Symbol
+  end
+
   def param_is_a_value(param)
     if param == Numeric
       false
@@ -310,5 +326,17 @@ module Enumerable
       i += 1
     end
     newarray
+  end
+
+  def operation_simbol(param, elem_a, elem_b)
+    if param.to_s == '+'
+      elem_a + elem_b
+    elsif param.to_s == '*'
+      elem_a * elem_b
+    elsif param.to_s == '-'
+      elem_a - elem_b
+    else
+      elem_a / elem_b
+    end
   end
 end
