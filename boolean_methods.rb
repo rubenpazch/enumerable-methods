@@ -1,4 +1,5 @@
 require './general_methods'
+require './other_methods'
 
 module Enumerable
   def my_all?(param = nil)
