@@ -3,16 +3,6 @@ require './boolean_methods'
 require './general_methods'
 
 module Enumerable
-  def my_select
-    return to_enum(:my_select) unless block_given?
-
-    newarray = []
-    my_each do |x|
-      newarray << x if yield(x) == true
-    end
-    newarray
-  end
-
   def my_count(item = nil)
     counter = 0
     if item.nil?
@@ -47,52 +37,42 @@ module Enumerable
     newarray
   end
 
-  def new_auto_array(first, last)
-    autoarray = []
-    i = first
-    while i <= last
-      autoarray << i
-      i += 1
-    end
-    autoarray
-  end
-
-  def my_inject(_default_param = nil, param = nil)
-    if _default_param.class == Symbol && param.nil? && self.class == Range
+  def my_inject(initial_value = nil, param = nil)
+    if initial_value.class == Symbol && param.nil? && self.class == Range
       autoarray = new_auto_array(0, last - 1)
       acum = autoarray[0]
-      acum = operate_inject_for_simbol(acum, autoarray, _default_param)
-    elsif _default_param.class == Symbol && param.nil?
+      acum = operate_inject_for_simbol(acum, autoarray, initial_value)
+    elsif initial_value.class == Symbol && param.nil?
       return nil if length.zero?
 
-      acum = operate_inject_for_simbol(self[0], self[1..length], _default_param)
-    elsif param.class == Symbol && !_default_param.nil? && self.class == Range
+      acum = operate_inject_for_simbol(self[0], self[1..length], initial_value)
+    elsif param.class == Symbol && !initial_value.nil? && self.class == Range
       autoarray = new_auto_array(0, last - 1)
       acum = autoarray[0]
       acum = operate_inject_for_simbol(acum, autoarray, param)
-      acum = operation_simbol(param, acum, _default_param)
-    elsif param.class == Symbol && !_default_param.nil?
-      return _default_param if empty?
+      acum = operation_simbol(param, acum, initial_value)
+    elsif param.class == Symbol && !initial_value.nil?
+      return initial_value if empty?
 
       autoarray = new_auto_array(0, last - 1)
       acum = autoarray[0]
       acum = operate_inject_for_simbol(acum, autoarray, param)
-      acum = operation_simbol(param, acum, _default_param)
-    elsif param_is_a_value(_default_param) && !_default_param.nil? && param.nil? && self.class == Range
+      acum = operation_simbol(param, acum, initial_value)
+    elsif param_is_a_value(initial_value) && !initial_value.nil? && param.nil? && self.class == Range
       return raise 'The number 4 is not a symbol or string' unless block_given?
 
       autoarray = new_auto_array(first, last)
       acum = autoarray[0]
       temparray = autoarray[1...autoarray.length]
       temparray.my_each { |item| acum = yield(item, acum) }
-      acum = yield(acum, _default_param)
-    elsif param_is_a_value(_default_param) && !_default_param.nil? && param.nil?
+      acum = yield(acum, initial_value)
+    elsif param_is_a_value(initial_value) && !initial_value.nil? && param.nil?
       return raise 'The number 4 is not a symbol or string' unless block_given?
 
       acum = self[0]
       newarray = self[1..length]
       newarray.my_each { |item| acum = yield(item, acum) }
-      acum = yield(acum, _default_param)
+      acum = yield(acum, initial_value)
     elsif self.class == Array
       acum = self[0]
       newarray = self[1..length]

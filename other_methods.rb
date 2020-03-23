@@ -43,3 +43,13 @@ module Enumerable
     end
   end
 end
+
+def new_auto_array(first, last)
+  autoarray = []
+  i = first
+  while i <= last
+    autoarray << i
+    i += 1
+  end
+  autoarray
+end
