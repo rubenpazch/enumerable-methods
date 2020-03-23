@@ -8,8 +8,7 @@ module Enumerable
   end
 
   def if_false_return_true(elem)
-    t = elem == false
-    t
+    elem == false
   end
 
   def if_true_return_false(elem)
@@ -76,4 +75,11 @@ module Enumerable
   def if_a_is_equal_b_return_false(input_a, input_b)
     input_a != input_b
   end
+end
+
+def operate_inject_for_simbol(acum, newarray, param)
+  newarray.my_each do |item|
+    acum = operation_simbol(param, acum, item)
+  end
+  acum
 end

@@ -35,11 +35,7 @@ module Enumerable
     newarray = []
     if self.class == Array
       my_each do |x|
-        newarray << if yield x
-                      true
-                    else
-                      false
-                    end
+        newarray << yield(x) ? true : false
       end
     else
       i = first
@@ -49,13 +45,6 @@ module Enumerable
       end
     end
     newarray
-  end
-
-  def operate_inject_for_simbol(acum, newarray, param)
-    newarray.my_each do |item|
-      acum = operation_simbol(param, acum, item)
-    end
-    acum
   end
 
   def new_auto_array(first, last)
@@ -68,32 +57,52 @@ module Enumerable
     autoarray
   end
 
-  def my_inject(param = nil, _default_param = nil)
-    if param.class == Symbol
+  def my_inject(_default_param = nil, param = nil)
+		if  _default_param.class == Symbol && param.nil? && self.class == Range 
+      autoarray = new_auto_array(0, last - 1)
+      acum = autoarray[0]
+      acum = operate_inject_for_simbol(acum, autoarray, _default_param)
+		elsif _default_param.class == Symbol && param.nil?
       return nil if length.zero?
 
-      acum = operate_inject_for_simbol(self[0], self[1..length], param)
-    elsif self.class == Array
+      acum = operate_inject_for_simbol(self[0], self[1..length], _default_param)
+		elsif param.class == Symbol && !_default_param.nil?	&& self.class==Range
+      autoarray = new_auto_array(0, last - 1)
+      acum = autoarray[0]
+      acum = operate_inject_for_simbol(acum, autoarray, param)
+      acum = operation_simbol(param, acum, _default_param)		
+		elsif param.class == Symbol && !_default_param.nil?
+			return _default_param if self.length == 0
+      autoarray = new_auto_array(0, last - 1)
+      acum = autoarray[0]
+      acum = operate_inject_for_simbol(acum, autoarray, param)
+      acum = operation_simbol(param, acum, _default_param)		
+		elsif param_is_a_value(_default_param) && !_default_param.nil? && param.nil? && self.class ==Range
+      return raise 'The number 4 is not a symbol or string' unless block_given?
+
+			autoarray = new_auto_array(first, last)			
+			acum = autoarray[0]
+			temparray = autoarray[1...autoarray.length]
+			temparray.my_each { |item| acum = yield(item, acum) }			
+      acum = yield(acum, _default_param)
+		elsif param_is_a_value(_default_param) && !_default_param.nil? && param.nil?
+      return raise 'The number 4 is not a symbol or string' unless block_given?
+
       acum = self[0]
       newarray = self[1..length]
-      newarray.my_each do |item|
-        acum = yield(item, acum)
-      end
-    else
+      newarray.my_each { |item| acum = yield(item, acum) }
+      acum = yield(acum, _default_param)
+		elsif self.class == Array
+      acum = self[0]
+      newarray = self[1..length]
+      newarray.my_each { |item| acum = yield(item, acum) }
+		else
       autoarray = new_auto_array(first, last)
       acum = autoarray[0]
       temparray = autoarray[1..autoarray.length]
-      temparray.my_each do |item|
-        acum = yield(item, acum)
-      end
+      temparray.my_each { |item| acum = yield(item, acum) }
     end
     acum
-  end
-
-  def multiply_elns(numbers)
-    numbers.my_inject do |number, product|
-      number * product
-    end
   end
 
   def my_map_proc(&block)
