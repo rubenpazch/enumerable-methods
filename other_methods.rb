@@ -13,10 +13,6 @@ module Enumerable
     end
   end
 
-  def param_is_a_symbol(param)
-    param == Symbol
-  end
-
   def param_is_a_value(param)
     if param == Numeric
       false

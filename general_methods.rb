@@ -1,21 +1,4 @@
 module Enumerable
-  def if_is_false_or_null(elem)
-    if elem.nil? || elem == false
-      false
-    else
-      true
-    end
-  end
-
-  def if_false_return_true(elem)
-    elem == false
-  end
-
-  def if_true_return_false(elem)
-    t = elem != true
-    t
-  end
-
   def if_elem_owns_to_class(elem, param)
     if elem.is_a? param
       true
@@ -45,41 +28,17 @@ module Enumerable
       acum
     elsif param_is_a_class(param)
       acum
-    elsif param_is_a_symbol(param)
+    elsif param == Symbol
       acum
     else
       acum * param
     end
   end
 
-  def if_is_a_reg(param, regexp)
-    if param.match(regexp)
-      true
-    else
-      false
+  def operate_inject_for_simbol(acum, newarray, param)
+    newarray.my_each do |item|
+      acum = operation_simbol(param, acum, item)
     end
+    acum
   end
-
-  def if_is_not_a_reg(param, regexp)
-    if param.match(regexp)
-      false
-    else
-      true
-    end
-  end
-
-  def if_a_is_equal_b(input_a, input_b)
-    input_a == input_b
-  end
-
-  def if_a_is_equal_b_return_false(input_a, input_b)
-    input_a != input_b
-  end
-end
-
-def operate_inject_for_simbol(acum, newarray, param)
-  newarray.my_each do |item|
-    acum = operation_simbol(param, acum, item)
-  end
-  acum
 end
