@@ -7,6 +7,8 @@ def multiply_els(numbers)
   end
 end
 
+# examples test cases for the custom methods
+
 def select_even(numbers)
   numbers.my_select(&:even?)
 end
@@ -15,6 +17,47 @@ def check_if_all_numbers_up_to_100(numbers)
   numbers.my_all? { |word| word >= 100 }
 end
 
-puts multiply_els([1, 2, 3, 4, 5])
-puts select_even([1, 2, 3, 4, 5, 6, 7, 8, 9]).inspect
-puts check_if_all_numbers_up_to_100([10, 20, 300, 400, 500, 60, 70, 800, 9]).inspect
+# puts multiply_els([1, 2, 3, 4, 5])
+# puts select_even([1, 2, 3, 4, 5, 6, 7, 8, 9]).inspect
+# puts check_if_all_numbers_up_to_100([10, 20, 300, 400, 500, 60, 70, 800, 9]).inspect
+
+arr = [3, 4, 6, 8, 7]
+# hash = { a: 1, b: 2 }
+
+print arr.my_inject(2) { |a, b| a + b }
+
+# TEST
+
+# arr.my_each{|item| puts item.to_s}
+# hash.my_each{|item| puts item.to_s}
+
+# arr.my_each_with_index { |v, i| puts "#{v} at index #{i}" }
+# hash.my_each_with_index { |k, v, i| puts "#{k}: #{v} at index #{i}" }
+
+# print [1, 2, 2, 3, 5, 8, 9].my_select(&:odd?)
+# print hash.my_select { |k, v| v > 1 }
+
+# print arr.my_all?(/\D/)
+# print arr.my_all?(String)
+# print hash.my_all? { |k, v| v.is_a? Integer }
+# print hash.my_all?(/\d/)
+
+# print arr.my_any?
+# print [1, 2, nil, 3, 5, 8, 9].my_any? { |v| v || v.nil? }
+# print arr.my_any?(/\d/)
+
+# print arr.my_none?
+# print [1, 2, nil, 3, 5, 8, 9].my_none? { |v| v || v.nil? }
+# print arr.my_none?(/\d/)
+
+# print arr.my_count
+# print arr.my_count(2)
+# print arr.my_count{ |x| x%2==0 }
+
+# test = Proc.new { |i| i*i }
+# print arr.my_map( &test)
+# print arr.my_map { |i| i*i }
+
+# print [1,2,3,4,5].my_inject{|a,b| a+b}
+
+# print multiply_els(arr)
