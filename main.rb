@@ -7,16 +7,14 @@ def multiply_els(numbers)
   end
 end
 
-puts multiply_els([1, 2, 3, 4])
-puts %w[ant bear cat].my_all? { |word| word.length >= 3 }
-puts %w[ant bear cat].my_any? { |word| word.length >= 3 }
-puts %w[ant bear cat].my_none? { |word| word.length == 5 }
+def select_even(numbers)
+  numbers.my_select(&:even?)
+end
 
-ary = [1, 2, 4, 2]
-ary.my_count(&:even?)
+def check_if_all_numbers_up_to_100(numbers)
+  numbers.my_all? { |word| word >= 100 }
+end
 
-puts [1, 2, 3].my_inject(4) { |prod, n| prod * n } # should provide me 24 but got 6
-puts (1...4).my_inject(:+) # should return 6
-puts (1...4).my_inject(1, :+) # should return 7
-puts (1..4).my_map { |i| i * i }
-puts (1..4).my_map_proc { |i| i * i }
+puts multiply_els([1, 2, 3, 4, 5])
+puts select_even([1, 2, 3, 4, 5, 6, 7, 8, 9]).inspect
+puts check_if_all_numbers_up_to_100([10, 20, 300, 400, 500, 60, 70, 800, 9]).inspect
