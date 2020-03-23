@@ -146,11 +146,18 @@ module Enumerable
       end
     else
       t = false
-      return false if length.zero? && param.nil?
+      return true if length.zero? && param.nil?
 
-      my_each do |x|
-        t = x != true || x != param
-        break if t == false
+      if param.nil?
+        my_each do |x|
+          t = x != true
+          break if t == false
+        end
+      else
+        my_each do |x|
+          t = x != param
+          break if t == false
+        end
       end
     end
     t
