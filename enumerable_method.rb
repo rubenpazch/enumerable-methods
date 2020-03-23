@@ -58,45 +58,46 @@ module Enumerable
   end
 
   def my_inject(_default_param = nil, param = nil)
-		if  _default_param.class == Symbol && param.nil? && self.class == Range 
+    if _default_param.class == Symbol && param.nil? && self.class == Range
       autoarray = new_auto_array(0, last - 1)
       acum = autoarray[0]
       acum = operate_inject_for_simbol(acum, autoarray, _default_param)
-		elsif _default_param.class == Symbol && param.nil?
+    elsif _default_param.class == Symbol && param.nil?
       return nil if length.zero?
 
       acum = operate_inject_for_simbol(self[0], self[1..length], _default_param)
-		elsif param.class == Symbol && !_default_param.nil?	&& self.class==Range
+    elsif param.class == Symbol && !_default_param.nil? && self.class == Range
       autoarray = new_auto_array(0, last - 1)
       acum = autoarray[0]
       acum = operate_inject_for_simbol(acum, autoarray, param)
-      acum = operation_simbol(param, acum, _default_param)		
-		elsif param.class == Symbol && !_default_param.nil?
-			return _default_param if self.length == 0
+      acum = operation_simbol(param, acum, _default_param)
+    elsif param.class == Symbol && !_default_param.nil?
+      return _default_param if empty?
+
       autoarray = new_auto_array(0, last - 1)
       acum = autoarray[0]
       acum = operate_inject_for_simbol(acum, autoarray, param)
-      acum = operation_simbol(param, acum, _default_param)		
-		elsif param_is_a_value(_default_param) && !_default_param.nil? && param.nil? && self.class ==Range
+      acum = operation_simbol(param, acum, _default_param)
+    elsif param_is_a_value(_default_param) && !_default_param.nil? && param.nil? && self.class == Range
       return raise 'The number 4 is not a symbol or string' unless block_given?
 
-			autoarray = new_auto_array(first, last)			
-			acum = autoarray[0]
-			temparray = autoarray[1...autoarray.length]
-			temparray.my_each { |item| acum = yield(item, acum) }			
+      autoarray = new_auto_array(first, last)
+      acum = autoarray[0]
+      temparray = autoarray[1...autoarray.length]
+      temparray.my_each { |item| acum = yield(item, acum) }
       acum = yield(acum, _default_param)
-		elsif param_is_a_value(_default_param) && !_default_param.nil? && param.nil?
+    elsif param_is_a_value(_default_param) && !_default_param.nil? && param.nil?
       return raise 'The number 4 is not a symbol or string' unless block_given?
 
       acum = self[0]
       newarray = self[1..length]
       newarray.my_each { |item| acum = yield(item, acum) }
       acum = yield(acum, _default_param)
-		elsif self.class == Array
+    elsif self.class == Array
       acum = self[0]
       newarray = self[1..length]
       newarray.my_each { |item| acum = yield(item, acum) }
-		else
+    else
       autoarray = new_auto_array(first, last)
       acum = autoarray[0]
       temparray = autoarray[1..autoarray.length]
