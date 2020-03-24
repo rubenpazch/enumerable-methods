@@ -17,14 +17,79 @@ def check_if_all_numbers_up_to_100(numbers)
   numbers.my_all? { |word| word >= 100 }
 end
 
+# p [1,2,3].inject(1) { |product, n| product * n }
+# p [1,2,3].my_inject(1) { |product, n| product * n }
+# puts '================='
+# p [1,2,3].inject { |product, n| product * n }
+# p [1,2,3].my_inject { |product, n| product * n }
+# puts '================='
+# p (5..10).inject(1) { |product, n| product * n }
+# p (5..10).my_inject(1) { |product, n| product * n }
+# puts '================='
+# p (5..10).inject { |product, n| product * n }
+# p (5..10).my_inject { |product, n| product * n }
+# puts '================='
+# p [1, 2, 3].inject(4) { |prod, n| prod * n }
+# p [1, 2, 3].my_inject(4) { |prod, n| prod * n }
+# puts '================='
+# p (5..10).inject { |sum, n| sum + n }
+# p (5..10).my_inject { |sum, n| sum + n }
+# puts '================='
+# p [1, 2, 3].inject(4) { |prod, n| prod * n }
+# p [1, 2, 3].my_inject(4) { |prod, n| prod * n }
+# puts '================='
+# p [1, 2, 3, 4].inject(:*)
+# p [1, 2, 3, 4].my_inject(:*)
+# puts '================='
+# p [1, 2, 3, 4].inject(:+)
+# p [1, 2, 3, 4].my_inject(:+)
+# puts '================='
+# puts [].inject(:+)
+# #puts [].my_inject(:+)
+
+# puts (1...4).inject(:+)
+# puts (1...4).my_inject(:+)
+
+# p [1, 2, 3].inject { |prod, n| prod * n }
+# p [1, 2, 3].my_inject { |prod, n| prod * n }
+
 # puts multiply_els([1, 2, 3, 4, 5])
 # puts select_even([1, 2, 3, 4, 5, 6, 7, 8, 9]).inspect
 # puts check_if_all_numbers_up_to_100([10, 20, 300, 400, 500, 60, 70, 800, 9]).inspect
 
-arr = [3, 4, 6, 8, 7]
+# p [1, true, 'hi', []].my_all?
+# p %w[ant bear cat].my_all? { |word| word.length >= 4 }
+# p %w[ant bear cat].my_all?(/t/)
+
+# p (1...4).inject(1, :+)
+# p (1...4).my_inject(1, :+)
+#
+# p (1...4).inject(1, :*)
+# p (1...4).my_inject(1, :*)
+
+# p (1...4).inject(1, :/)
+# p (1...4).my_inject(1, :/)
+
+# 0+1+2+3+1
+
+# p (5..10).my_inject(2, :*)
+# p (0..10).my_inject(2, :*)
+# p (1..10).my_inject(2, :*)
+#
+# p (5..10).inject(2, :*)
+# p (0..10).inject(2, :*)
+# p (1..10).inject(2, :*)
+
+# p [3, 3, 3].my_all?(3)
+# p [nil, false, nil, false].any?
+# p [nil, false, true, false].any?
+# p [nil, true, 99].any?
+# p [nil, 88, 99].any?
+# p [77, 88, 99].any?
+# arr = [3, 4, 6, 8, 7]
 # hash = { a: 1, b: 2 }
 
-print arr.my_inject(2) { |a, b| a + b }
+# print arr.my_inject(2) { |a, b| a + b }
 
 # TEST
 

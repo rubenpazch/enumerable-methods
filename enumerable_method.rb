@@ -69,27 +69,29 @@ module Enumerable
   # rubocop:disable Metrics/PerceivedComplexity
   def my_all?(param = nil)
     t = true
-    if block_given?
-      return true unless block_given?
 
+    if block_given?
       my_each do |x|
         t = yield(x).nil? || yield(x) == false ? false : true
         break if t == false
       end
-    elsif param.class == Class && !param.nil?
-      my_each do |x|
-        t = x.is_a?(param) ? true : false
-        break if t == false
-      end
-    elsif param.class == Regexp && !param.nil?
-      my_each do |x|
-        t = x.match(param) ? true : false
-        break if t == false
+    elsif !param.nil?
+      if param.class == Class
+        my_each do |x|
+          return false unless x.is_a?(param)
+        end
+      elsif param.class == Regexp
+        my_each do |x|
+          return false unless x.match(param)
+        end
+      else
+        my_each do |x|
+          return false unless x == param
+        end
       end
     else
       my_each do |x|
-        t = x == param
-        break if t == false
+        return false unless x
       end
     end
     t
@@ -100,26 +102,29 @@ module Enumerable
 
     t = true
     if block_given?
-      return true unless block_given?
-
       my_each do |x|
         t = yield(x).nil? || yield(x) == false ? false : true
         break if t == true
       end
-    elsif param.class == Class && !param.nil?
-      my_each do |x|
-        t = x.is_a?(param) ? true : false
-        break if t == true
-      end
-    elsif param.class == Regexp && !param.nil?
-      my_each do |x|
-        t = x.match(param) ? true : false
-        break if t == true
+    elsif !param.nil?
+      if param.class == Class
+        my_each do |x|
+          t = x.is_a?(param) ? true : false
+          break if t == true
+        end
+      elsif param.class == Regexp
+        my_each do |x|
+          t = x.match(param) ? true : false
+          break if t == true
+        end
+      else
+        my_each do |x|
+          return true unless x == param
+        end
       end
     else
       my_each do |x|
-        t = x == param
-        break if t == true
+        t = x == false || x.nil? ? false : true
       end
     end
     t
@@ -128,8 +133,6 @@ module Enumerable
   def my_none?(param = nil)
     t = true
     if block_given?
-      return true unless block_given?
-
       my_each do |x|
         t = yield(x) == false
         break if t == false
@@ -170,54 +173,56 @@ module Enumerable
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
-  def my_inject(initial_value = nil, param = nil)
-    if initial_value.class == Symbol && param.nil? && self.class == Range
-      autoarray = (0..last - 1).my_map { |i| i }
-      acum = autoarray[0]
-      acum = operate_inject_for_simbol(acum, autoarray, initial_value)
-    elsif initial_value.class == Symbol && param.nil?
-      return nil if length.zero?
 
-      acum = operate_inject_for_simbol(self[0], self[1..length], initial_value)
-    elsif param.class == Symbol && !initial_value.nil? && self.class == Range
-      autoarray = (0..last - 1).my_map { |i| i }
-      acum = autoarray[0]
-      acum = operate_inject_for_simbol(acum, autoarray, param)
-      acum = operation_simbol(param, acum, initial_value)
-    elsif param.class == Symbol && !initial_value.nil?
-      return initial_value if empty?
+  def my_inject(acum_initial = nil, symb = nil)
+    if block_given?
+      if is_a? Array
+        return 0 if length.zero? && acum_initial.nil?
+        return nil if length.zero?
 
-      autoarray = (0..last - 1).my_map { |i| i }
-      acum = autoarray[0]
-      acum = operate_inject_for_simbol(acum, autoarray, param)
-      acum = operation_simbol(param, acum, initial_value)
-    elsif param_is_a_value(initial_value) && !initial_value.nil? && param.nil? && self.class == Range
-      return raise 'The number 4 is not a symbol or string' unless block_given?
+        acum = acum_initial.nil? ? self[0] : acum_initial
+        self[0..length].my_each { |item| acum = yield(item, acum) }
+      else
+        autoarray = (first..last).my_map { |i| i }
+        if acum_initial.nil?
+          acum = autoarray[0]
+          autoarray[1..last].my_each { |item| acum = yield(item, acum) }
+        else
+          acum = acum_initial
+          autoarray.my_each { |item| acum = yield(item, acum) }
+        end
+      end
+    elsif acum_initial.class == Symbol || symb.class == Symbol
+      tempsymbol = acum_initial.class == Symbol && symb.nil? ? acum_initial : symb
+      if is_a? Array
+        return nil if length.zero? && acum_initial.nil?
+        return acum_initial if length.zero? && !acum_initial.nil? && acum_initial.class != Symbol
+        return nil if length.zero?
 
-      autoarray = (first..last).my_map { |i| i }
-      acum = autoarray[0]
-      temparray = autoarray[1...autoarray.length]
-      temparray.my_each { |item| acum = yield(item, acum) }
-      acum = yield(acum, initial_value)
-    elsif param_is_a_value(initial_value) && !initial_value.nil? && param.nil?
-      return raise 'The number 4 is not a symbol or string' unless block_given?
+        acum = acum_initial.class == Symbol ? self[0] : acum_initial
+        index_start = 1
+        self[index_start..length].my_each do |item|
+          acum = tempsymbol.to_sym == :+ ? acum + item : acum * item
+        end
+      else
+        autoarray = if tempsymbol.to_sym == :+ && first == 1
+                      (0..last - 1).my_map { |i| i }
+                    else
+                      (first..last).my_map { |i| i }
+                    end
 
-      acum = self[0]
-      newarray = self[1..length]
-      newarray.my_each { |item| acum = yield(item, acum) }
-      acum = yield(acum, initial_value)
-    elsif self.class == Array
-      acum = self[0]
-      newarray = self[1..length]
-      newarray.my_each { |item| acum = yield(item, acum) }
+        acum = acum_initial.class == Symbol ? autoarray[0] : acum_initial
+        index_start = 0
+        autoarray[index_start..last].my_each do |item|
+          acum = tempsymbol.to_sym == :+ ? acum + item : acum * item
+        end
+      end
     else
-      autoarray = (first..last).my_map { |i| i }
-      acum = autoarray[0]
-      temparray = autoarray[1..autoarray.length]
-      temparray.my_each { |item| acum = yield(item, acum) }
+      0
     end
     acum
   end
+
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/MethodLength
@@ -233,39 +238,6 @@ module Enumerable
       i += 1
     end
     newarray
-  end
-
-  def param_is_a_value(param)
-    if param == Numeric
-      false
-    elsif param == String
-      false
-    elsif param == Integer
-      false
-    elsif param == Float
-      false
-    else
-      param.class != Regexp
-    end
-  end
-
-  def operation_simbol(param, elem_a, elem_b)
-    if param.to_s == '+'
-      elem_a + elem_b
-    elsif param.to_s == '*'
-      elem_a * elem_b
-    elsif param.to_s == '-'
-      elem_a - elem_b
-    else
-      elem_a / elem_b
-    end
-  end
-
-  def operate_inject_for_simbol(acum, newarray, param)
-    newarray.my_each do |item|
-      acum = operation_simbol(param, acum, item)
-    end
-    acum
   end
 end
 # rubocop:enable Metrics/ModuleLength
