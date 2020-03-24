@@ -100,7 +100,7 @@ module Enumerable
   def my_any?(param = nil)
     return false if empty?
 
-    t = true
+    t = false
     if block_given?
       my_each do |x|
         t = yield(x).nil? || yield(x) == false ? false : true
@@ -119,7 +119,7 @@ module Enumerable
         end
       else
         my_each do |x|
-          return true unless x == param
+          return true if x == param
         end
       end
     else
@@ -178,10 +178,10 @@ module Enumerable
     if block_given?
       if is_a? Array
         return 0 if length.zero? && acum_initial.nil?
-        return nil if length.zero?
-
-        acum = acum_initial.nil? ? self[0] : acum_initial
-        self[0..length].my_each { |item| acum = yield(item, acum) }
+				return nil if length.zero?
+								
+				acum = acum_initial.nil? ? self[0] : acum_initial				
+        self[1..length].my_each { |item| acum = yield(item, acum) }
       else
         autoarray = (first..last).my_map { |i| i }
         if acum_initial.nil?
