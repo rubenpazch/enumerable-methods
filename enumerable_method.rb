@@ -178,9 +178,9 @@ module Enumerable
     if block_given?
       if is_a? Array
         return 0 if length.zero? && acum_initial.nil?
-				return nil if length.zero?
-								
-				acum = acum_initial.nil? ? self[0] : acum_initial				
+        return nil if length.zero?
+
+        acum = acum_initial.nil? ? self[0] : acum_initial
         self[1..length].my_each { |item| acum = yield(item, acum) }
       else
         autoarray = (first..last).my_map { |i| i }

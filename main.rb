@@ -17,7 +17,7 @@ def check_if_all_numbers_up_to_100(numbers)
   numbers.my_all? { |word| word >= 100 }
 end
 
-p [1,2,3].my_inject{|sum, b| sum + b}
+p [1, 2, 3].my_inject { |sum, b| sum + b }
 
 # p [1,2,3].inject(1) { |product, n| product * n }
 # p [1,2,3].my_inject(1) { |product, n| product * n }
