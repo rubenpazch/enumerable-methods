@@ -28,7 +28,7 @@ Tools used on this project
 
 ## Screenshot
 
-![screenshot](./img/screnshot-site.jpg)
+![screenshot](./img/app_screenshot.png)
 
 ## Live Demo
 

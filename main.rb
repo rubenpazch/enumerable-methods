@@ -1,90 +1,129 @@
 $LOAD_PATH << '.'
 require './enumerable_method'
-require 'test/unit'
 
-include Enumerable
-
-class TestMySelect < Test::Unit::TestCase
-  def test_basic
-    assert_equal([2, 4], [1, 2, 3, 4, 5].my_select(&:even?))
+def multiply_els(numbers)
+  numbers.my_inject do |number, product|
+    number * product
   end
 end
 
-class TestMyAll < Test::Unit::TestCase
-  def test_basic
-    assert_equal(true, %w[ant bear cat].my_all? { |word| word.length >= 3 })
-    assert_equal(false, %w[ant bear cat].my_all? { |word| word.length >= 4 })
-    assert_equal(false, %w[ant bear cat].my_all?(/t/))
-    assert_equal(true, [1, 2i, 3.14].my_all?(Numeric))
-    assert_equal(false, [1, 'g', 3.14].my_all?(Numeric))
-    assert_equal(false, ['a', 1, 'c'].my_all?(String))
-    assert_equal(true, %w[a b c].my_all?(String))
-    assert_equal(false, [nil, true, 99].my_all?)
-    assert_equal(true, [].my_all?)
-  end
+# examples test cases for the custom methods
+
+def select_even(numbers)
+  numbers.my_select(&:even?)
 end
 
-class TestMyAny < Test::Unit::TestCase
-  def test_basic
-    assert_equal(true, %w[ant bear cat].my_any? { |word| word.length >= 3 })
-    assert_equal(true, %w[ant bear cat].my_any? { |word| word.length >= 4 })
-    assert_equal(false, %w[ant bear cat].my_any?(/d/))
-    assert_equal(true, [nil, true, 99].my_any?(Integer))
-    assert_equal(true, [nil, true, 99].my_any?)
-    assert_equal(false, [].my_any?)
-  end
+def check_if_all_numbers_up_to_100(numbers)
+  numbers.my_all? { |word| word >= 100 }
 end
 
-class TestMyNone < Test::Unit::TestCase
-  def test_basic
-    assert_equal(true, %w[ant bear cat].my_none? { |word| word.length == 5 })
-    assert_equal(false, %w[ant bear cat].my_none? { |word| word.length >= 4 })
-    assert_equal(true, %w[ant bear cat].my_none?(/d/))
-    assert_equal(false, [1, 3.14, 42].my_none?(Float))
-    assert_equal(true, [].my_none?)
-    assert_equal(true, [nil].my_none?)
-    assert_equal(true, [nil, false].my_none?)
-    assert_equal(false, [nil, false, true].my_none?)
-  end
-end
+# p [1, 2, 3].my_inject { |sum, b| sum + b }
+# p [1,2,3].inject(1) { |product, n| product * n }
+# p [1,2,3].my_inject(1) { |product, n| product * n }
+# puts '================='
+# p [1,2,3].inject { |product, n| product * n }
+# p [1,2,3].my_inject { |product, n| product * n }
+# puts '================='
+# p (5..10).inject(1) { |product, n| product * n }
+# p (5..10).my_inject(1) { |product, n| product * n }
+# puts '================='
+# p (5..10).inject { |product, n| product * n }
+# p (5..10).my_inject { |product, n| product * n }
+# puts '================='
+# p [1, 2, 3].inject(4) { |prod, n| prod * n }
+# p [1, 2, 3].my_inject(4) { |prod, n| prod * n }
+# puts '================='
+# p (5..10).inject { |sum, n| sum + n }
+# p (5..10).my_inject { |sum, n| sum + n }
+# puts '================='
+# p [1, 2, 3].inject(4) { |prod, n| prod * n }
+# p [1, 2, 3].my_inject(4) { |prod, n| prod * n }
+# puts '================='
+# p [1, 2, 3, 4].inject(:*)
+# p [1, 2, 3, 4].my_inject(:*)
+# puts '================='
+# p [1, 2, 3, 4].inject(:+)
+# p [1, 2, 3, 4].my_inject(:+)
+# puts '================='
+# puts [].inject(:+)
+# #puts [].my_inject(:+)
 
-class TestMyCount < Test::Unit::TestCase
-  def test_basic
-    ary = [1, 2, 4, 2]
-    assert_equal(4, ary.my_count)
-    assert_equal(2, ary.my_count(2))
-    assert_equal(3, ary.my_count(&:even?))
-  end
-end
+# puts (1...4).inject(:+)
+# puts (1...4).my_inject(:+)
 
-class TestMyMap < Test::Unit::TestCase
-  def test_basic
-    assert_equal([1, 4, 9, 16], (1..4).my_map { |i| i * i })
-    assert_equal(%w[cat cat cat cat], (1..4).my_map { 'cat' })
-  end
-end
+# p [1, 2, 3].inject { |prod, n| prod * n }
+# p [1, 2, 3].my_inject { |prod, n| prod * n }
 
-class TestMyInject < Test::Unit::TestCase
-  def test_basic
-    assert_equal(45, (5..10).my_inject { |sum, n| sum + n })
-    assert_equal(151_200, (5..10).my_inject(1) { |product, n| product * n })
-    longest = %w[cat sheep bear].my_inject do |memo, word|
-      memo.length > word.length ? memo : word
-    end
-    assert_equal('sheep', longest)
-  end
-end
+# puts multiply_els([1, 2, 3, 4, 5])
+# puts select_even([1, 2, 3, 4, 5, 6, 7, 8, 9]).inspect
+# puts check_if_all_numbers_up_to_100([10, 20, 300, 400, 500, 60, 70, 800, 9]).inspect
 
-class MultiplyElns < Test::Unit::TestCase
-  def test_basic
-    x = multiply_elns([1, 2, 3, 4, 5])
-    assert_equal(120, x)
-  end
-end
+# p [1, true, 'hi', []].my_all?
+# p %w[ant bear cat].my_all? { |word| word.length >= 4 }
+# p %w[ant bear cat].my_all?(/t/)
 
-class TestMyMapProc < Test::Unit::TestCase
-  def test_basic
-    assert_equal([1, 4, 9, 16], (1..4).my_map_proc { |i| i * i })
-    assert_equal(%w[cat cat cat cat], (1..4).my_map_proc { 'cat' })
-  end
-end
+# p (1...4).inject(1, :+)
+# p (1...4).my_inject(1, :+)
+#
+# p (1...4).inject(1, :*)
+# p (1...4).my_inject(1, :*)
+
+# p (1...4).inject(1, :/)
+# p (1...4).my_inject(1, :/)
+
+# 0+1+2+3+1
+
+# p (5..10).my_inject(2, :*)
+# p (0..10).my_inject(2, :*)
+# p (1..10).my_inject(2, :*)
+#
+# p (5..10).inject(2, :*)
+# p (0..10).inject(2, :*)
+# p (1..10).inject(2, :*)
+
+# p [3, 3, 3].my_all?(3)
+# p [nil, false, nil, false].any?
+# p [nil, false, true, false].any?
+# p [nil, true, 99].any?
+# p [nil, 88, 99].any?
+# p [77, 88, 99].any?
+# arr = [3, 4, 6, 8, 7]
+# hash = { a: 1, b: 2 }
+
+# print arr.my_inject(2) { |a, b| a + b }
+
+# TEST
+
+# arr.my_each{|item| puts item.to_s}
+# hash.my_each{|item| puts item.to_s}
+
+# arr.my_each_with_index { |v, i| puts "#{v} at index #{i}" }
+# hash.my_each_with_index { |k, v, i| puts "#{k}: #{v} at index #{i}" }
+
+# print [1, 2, 2, 3, 5, 8, 9].my_select(&:odd?)
+# print hash.my_select { |k, v| v > 1 }
+
+# print arr.my_all?(/\D/)
+# print arr.my_all?(String)
+# print hash.my_all? { |k, v| v.is_a? Integer }
+# print hash.my_all?(/\d/)
+
+# print arr.my_any?
+# print [1, 2, nil, 3, 5, 8, 9].my_any? { |v| v || v.nil? }
+# print arr.my_any?(/\d/)
+
+# print arr.my_none?
+# print [1, 2, nil, 3, 5, 8, 9].my_none? { |v| v || v.nil? }
+# print arr.my_none?(/\d/)
+
+# print arr.my_count
+# print arr.my_count(2)
+# print arr.my_count{ |x| x%2==0 }
+
+# test = Proc.new { |i| i*i }
+# print arr.my_map( &test)
+# print arr.my_map { |i| i*i }
+
+# print [1,2,3,4,5].my_inject{|a,b| a+b}
+
+# print multiply_els(arr)

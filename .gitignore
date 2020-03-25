@@ -1,0 +1,4 @@
+# ignore replit
+*.replit
+testcases.rb
+.vscode
